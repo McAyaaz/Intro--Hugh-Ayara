@@ -8,23 +8,25 @@
 #
 
 library(shiny)
+#Load Dataset 
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Alzheimer Diesease Analysis"),
 
-    # Sidebar with a slider input for number of bins 
+    # Sidebar with a slider input for Age 
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+            sliderInput("Age",
+                        "Age:",
+                        min = 65,
+                        max = 100,
+                        value = 72)
         ),
-
+        
         # Show a plot of the generated distribution
         mainPanel(
            plotOutput("distPlot")
