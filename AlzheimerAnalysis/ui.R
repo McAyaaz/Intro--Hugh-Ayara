@@ -14,7 +14,8 @@ fluidPage(
 
     # Application title
     titlePanel("Alzheimers Breakdown"),
-
+    includeHTML("../index.html")
+)
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
@@ -24,10 +25,12 @@ fluidPage(
                         max = 100,
                         value = 76)
         ),
-
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
         # Show a plot of the generated distribution
         mainPanel(
             plotOutput("distPlot")
         )
     )
-)
+
