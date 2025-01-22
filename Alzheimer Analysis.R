@@ -5,6 +5,9 @@ library(tidyr)
 if(!require(pacman)){
   install.packages('pacman')
 }
+if(!require(shiny)){
+  install.packages('shiny')
+}
 #choose a data set
 data("alzheimer")
 #create a subdate set with Age, BMI,Educationlevel, Smoking, AlcoholConsumption, PhysicalActivity, DietQuality, SleepQuality
