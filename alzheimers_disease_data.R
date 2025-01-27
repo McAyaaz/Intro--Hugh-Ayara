@@ -2,7 +2,7 @@
 #Date: 22th January 2025
 #Exploring the 🧠 Alzheimer's Disease Dataset 🧠
 
-###============================================================ TABLE OF CONTENTS ==============================================================###
+###=========================== TABLE OF CONTENTS ===================================###
 ### [A] Libraries
 ### [B] Load Dataset
 ### [C] Import Dataset
@@ -288,18 +288,18 @@ boxplot(
 
 # Calculate mean sleep quality per group
 library(dplyr)
-grouped_data <- data %>%
-  group_by(AgeGroup) %>%
+grouped_data <- alzheimers_disease %>%
+  group_by(Age_category) %>%
   summarize(MeanSleepQuality = mean(SleepQuality, na.rm = TRUE ))
 
 # Bar plot
 barplot(
   grouped_data$MeanSleepQuality,
-  names.arg = grouped_data$AgeGroup,
-  xlab = "Age Group",
+  names.arg = grouped_data$Age_category,
+  xlab = "Age Category",
   ylab = "Mean Sleep Quality",
   main = "Mean Sleep Quality by Age Group",
-  col = "lightblue"
+  col = "lightblue",
 )
 
 ################################################################################
@@ -319,13 +319,28 @@ ggplot(alzheimers_disease, aes(x = Age_category, y = sleep_quality)) +
 ################################################################################
 ### [E.6] Relationship between BMI and Ethnicity
 ################################################################################
-# Relationship between BMI and Ethnicity for Patients between 60 and 80 Years
+# Relationship between BMI and Ethnicity for Patients between 60 and 90 Years
 bmi_60_80 <- subset(alzheimers_disease, Age>=60 & Age<=80)
-ggplot(bmi_60_80, aes(x = bmi, y = Age)) +
-  geom_point(color = "blue", size = 3) + # Scatter points
+bmi_60_80$Ethnicity <- factor(bmi_60_80$Ethnicity, 
+                              levels = c(0, 1, 2, 3), 
+                              labels = c("Caucasian", "African American", "Asian", "Other"))
+ggplot(bmi_60_80, aes(x = bmi, y = Age, colour = as.factor(Ethnicity))) +
+  geom_point(alpha= 0.7, size = 3) + # Scatter points
+  geom_smooth(method = "lm", se= TRUE, colour= "black",linetype= "dashed")+
+  scale_color_manual(values = c("Caucasian"= "blue",
+                                "African American"= "red",
+                                "Asian"= "green",
+                                "Other"= "purple"))+
   labs(
     x = "BMI",
     y = "Age ",
+    color= "Ethnicity",
     title = "Scatter Plot of BMI by Ethnicity"
   ) +
   theme_minimal() # Clean theme
+theme(
+  plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+  axis.title = element_text(size = 14),
+  legend.title = element_text(size = 12),
+  legend.position = "right"
+)
