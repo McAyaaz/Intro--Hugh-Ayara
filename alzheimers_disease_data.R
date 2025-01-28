@@ -30,7 +30,6 @@ install.packages("pacman")
 library(pacman)
 pacman::p_load(reshape, foreign, lubridate, stringr, readxl, dplyr, openxlsx, writexl, naniar, 
                labelled, parsedate, ggplot2, maps, sf)
-
 ###########################
 ### [B] Load Dataset
 ###########################
@@ -236,9 +235,9 @@ plot(
 )
 
 ## Interpretations
-## [1] The density plot of sleep quality has a peak of 1 and 8. 
-## [2] The highest peak is 8 showing that most patients have a sleep quality of 8
-## [3] Interestingly, there is a dip at 5, showing that there are few patients who have a sleep quality of 5 
+## [1] The density plot of Diet quality has a peak of 1 and 8. 
+## [2] The highest peak is 8 showing that most patients have a Diet quality of 8
+## [3] Interestingly, there is a dip at 5, showing that there are few patients who have a Diet quality of 5 
 
 ################################################################################
 ### [E.2] Relationship between Sleep Quality and Age

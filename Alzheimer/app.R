@@ -2,9 +2,11 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(readxl)
-
-# Import Dataset
-setwd("~/GitHub/Intro--Hugh-Ayara")
+library()
+# Print working directory and list files for debugging
+print(getwd())
+print(list.files())
+# Read the dataset using a relative path
 alzheimers_disease <- read_xlsx("alzheimers_disease.xlsx", sheet = 1)
 
 # Define UI for application that draws Different Plots
@@ -39,7 +41,8 @@ ui <- fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("selected_plot")
+      plotOutput("selected_plot"),
+      textOutput("interpretation") #For Interpreation text
     )
   )
 )
@@ -181,7 +184,45 @@ server <- function(input, output, session) {
                                      "80-90" = "red"))
     }
   })
-}  
+  
+  #Render the Interpretation text
+  output$interpretation <- renderText({
+  if(input$plot_type == "Density Plot of Sleep Quality"){
+    "Interpretations:
+      [1] The density plot of sleep quality has a peak at 5 and 9, showing that most patients have a sleep quality of 5 and 9.
+      [2] Interestingly, there is a dip at 6, showing that there are few patients who have a sleep quality of 6."
+  }
+    else if (input$plot_type == "Density Plot of Diet Quality") {
+      "Interpretations:
+      [1] The density plot of Diet quality has a peak of 1 and 8. 
+      [2] The highest peak is 8 showing that most patients have a Diet quality of 8
+      [3] Interestingly, there is a dip at 5, showing that there are few patients who have a Diet quality of 5"
+    }
+    else if (input$plot_type == "Sleep Quality Across Ethnicity") {
+      "Interpretations:
+      [1] The box plot shows the distribution of sleep quality across different ethnicities.
+      [2] Caucasian patients tend to have higher sleep quality compared to other groups."
+    }
+    else if (input$plot_type == "Sleep Quality Across Gender") {
+      "Interpretations:
+      [1] The box plot shows the distribution of sleep quality across different Genders.
+      [2] Female patients tend to have higher sleep quality compared to other genders."
+    }
+    else if (input$plot_type == "Scatter Plot of BMI by Ethnicity") {
+      "Interpretations:
+      [1] The scatter plot shows the relationship between BMI and age across different ethnicities.
+      [2] There is a slight positive trend between BMI and age for most ethnic groups."
+    }
+    else if (input$plot_type == "Box Plot of Age Vs Sleep Quality") {
+      "Interpretations:
+      [1] The box plot shows the distribution of sleep quality across different age categories.
+      [2] Patients aged 80-90 tend to have higher sleep quality compared to older age groups."
+    }
+    else {
+      "Interpretations: not available for this plot."
+    }
+  })
+}
 
 # Run the application 
 shinyApp(ui = ui, server = server)
