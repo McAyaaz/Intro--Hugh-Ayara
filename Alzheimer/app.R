@@ -6,7 +6,7 @@ library()
 # Print working directory and list files for debugging
 print(getwd())
 print(list.files())
-# Read the dataset using a relative path
+# Read the data set using a relative path
 alzheimers_disease <- read_xlsx("alzheimers_disease.xlsx", sheet = 1)
 
 # Define UI for application that draws Different Plots
@@ -42,7 +42,7 @@ ui <- fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
       plotOutput("selected_plot"),
-      textOutput("interpretation") #For Interpreation text
+      htmlOutput("interpretation") #For Interpretation text
     )
   )
 )
@@ -93,7 +93,6 @@ server <- function(input, output, session) {
         mutate(
           Gender = factor(Gender, levels = c(0, 1), labels = c("Male", "Female"))
         )
-      
       ggplot(data, aes(x = Gender, y = SleepQuality, fill = Gender)) +
         geom_boxplot() +
         labs(
@@ -111,16 +110,16 @@ server <- function(input, output, session) {
         mutate(
           Gender = factor(Gender, levels = c(0, 1), labels = c("Male", "Female"))
         )
-      
       ggplot(data, aes(x = Gender, y = SleepQuality)) +
-        geom_point(color = "lightblue", alpha = 0.7) +
-        geom_smooth(method = "lm", color = "red", se = TRUE) +
+        geom_point(color = "lightblue", alpha = 0.7) + # Scatter points
+        geom_smooth(method = "lm", color = "red", se = TRUE) + # Regression line
         labs(
           title = "Relationship Between Sleep Quality and Gender",
           x = "Gender",
           y = "Sleep Quality"
         ) +
         theme_minimal()
+      
     }
     else if (input$plot_type == "Density Plot of Diet Quality") {
       ggplot(data, aes(x = DietQuality)) +
@@ -188,38 +187,54 @@ server <- function(input, output, session) {
   #Render the Interpretation text
   output$interpretation <- renderText({
   if(input$plot_type == "Density Plot of Sleep Quality"){
-    "Interpretations:
-      [1] The density plot of sleep quality has a peak at 5 and 9, showing that most patients have a sleep quality of 5 and 9.
-      [2] Interestingly, there is a dip at 6, showing that there are few patients who have a sleep quality of 6."
+    paste(
+    "<b>Interpretations:</b><br>",
+    "<i>[1]</i> The density plot of sleep quality has a peak at 5 and 9, showing that most patients have a sleep quality of 5 and 9.<br>",
+    "<i>[2]</i> Interestingly, there is a dip at 6, showing that there are few patients who have a sleep quality of 6."
+    )
   }
     else if (input$plot_type == "Density Plot of Diet Quality") {
-      "Interpretations:
-      [1] The density plot of Diet quality has a peak of 1 and 8. 
-      [2] The highest peak is 8 showing that most patients have a Diet quality of 8
-      [3] Interestingly, there is a dip at 5, showing that there are few patients who have a Diet quality of 5"
+      paste(
+      "<b>Interpretations:</b><br>",
+      "<i>[1]</i> The density plot of Diet quality has a peak of 1 and 8.<br>" ,
+      "<i>[2]</i> The highest peak is 8 showing that most patients have a Diet quality of 8 <br>",
+      "<i>[3]</i> Interestingly, there is a dip at 5, showing that there are few patients who have a Diet quality of 5"
+      )
     }
     else if (input$plot_type == "Sleep Quality Across Ethnicity") {
-      "Interpretations:
-      [1] The box plot shows the distribution of sleep quality across different ethnicities.
-      [2] Caucasian patients tend to have higher sleep quality compared to other groups."
+      paste(
+      "<b>Interpretations:</b><br>",
+      "<i>[1]</i> The box plot shows the distribution of sleep quality across different ethnicities.<br>",
+      "<i>[2]</i> Caucasian patients tend to have higher sleep quality compared to other groups.<br>"
+      )
     }
     else if (input$plot_type == "Sleep Quality Across Gender") {
-      "Interpretations:
-      [1] The box plot shows the distribution of sleep quality across different Genders.
-      [2] Female patients tend to have higher sleep quality compared to other genders."
+      paste( 
+      "<b>Interpretations:</b><br>",
+      "<i>[1]</i> The box plot shows the distribution of sleep quality across different Genders.<br>",
+      "<i>[2]</i> Female patients tend to have higher sleep quality compared to other genders."
+  )
     }
     else if (input$plot_type == "Scatter Plot of BMI by Ethnicity") {
-      "Interpretations:
-      [1] The scatter plot shows the relationship between BMI and age across different ethnicities.
-      [2] There is a slight positive trend between BMI and age for most ethnic groups."
+      paste( 
+        "<b>Interpretations:</b><br>",
+        "<i>[1]</i> The scatter plot shows the relationship between BMI and age across different ethnicities.<br>",
+        "<i>[2]</i> There is a slight positive trend between BMI and age for most ethnic groups."
+      )
     }
-    else if (input$plot_type == "Box Plot of Age Vs Sleep Quality") {
-      "Interpretations:
-      [1] The box plot shows the distribution of sleep quality across different age categories.
-      [2] Patients aged 80-90 tend to have higher sleep quality compared to older age groups."
+      else if (input$plot_type == "Box Plot of Age Vs Sleep Quality") {
+        paste(
+        "<b>Interpretations:</b><br>",
+        "<i>[1]</i> The box plot shows the distribution of sleep quality across different age categories.<br>",
+        "<i>[2]</i> Patients aged 80-90 tend to have higher sleep quality compared to older age groups."
+        )
     }
     else {
-      "Interpretations: not available for this plot."
+      paste(
+      "<b>Interpretations:</b><br>",
+      "<i>[1]</i> Scatter plots showing relationship between Sleep Quality and Gender for Patients between 60 and 90 Years.
+      "
+      )
     }
   })
 }

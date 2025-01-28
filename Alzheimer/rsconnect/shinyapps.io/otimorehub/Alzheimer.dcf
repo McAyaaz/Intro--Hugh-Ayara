@@ -5,7 +5,7 @@ account: otimorehub
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 13822519
-bundleId: 9708046
+bundleId: 9711403
 url: https://otimorehub.shinyapps.io/Alzheimer/
 version: 1
 asMultiple: FALSE
